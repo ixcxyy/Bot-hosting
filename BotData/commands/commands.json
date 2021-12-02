@@ -1,0 +1,391 @@
+{
+  "command": [
+    {
+      "name": "bal",
+      "actions": [
+        {
+          "name": "getMoney",
+          "category": "User Data",
+          "type": "Get User Data",
+          "messageActionRows": [],
+          "user": "${dbsVars.CommandAuthor.id}",
+          "field": "cash",
+          "varname": "cash",
+          "savevartype": "temp",
+          "vartype": "User"
+        },
+        {
+          "name": "getMoney_1",
+          "category": "User Data",
+          "type": "Get User Data",
+          "messageActionRows": [],
+          "user": "${dbsVars.CommandAuthor.id}",
+          "field": "bank",
+          "varname": "bank",
+          "savevartype": "temp",
+          "vartype": "User"
+        },
+        {
+          "name": "user Money Embed",
+          "category": "Message",
+          "type": "Send Embed",
+          "fields": [
+            {
+              "name": " Cash ",
+              "value": "${tempVars.cash}  💵",
+              "inline": "true"
+            },
+            {
+              "name": "Bank",
+              "value": "${tempVars.bank}  💵",
+              "inline": "true"
+            }
+          ],
+          "messageActionRows": [],
+          "channelname": "${dbsVars.CommandChannel.id}",
+          "color": "2BFF39",
+          "title": "",
+          "url": "",
+          "authorname": "${dbsVars.CommandAuthor.displayName}",
+          "authorimageurl": "${dbsVars.CommandAuthor.user.avatarURL}",
+          "authorlink": "",
+          "description": "",
+          "thumbnail": "",
+          "image": "",
+          "footer": "",
+          "timestamp": "false",
+          "savetovariable": "",
+          "savetovariabletype": "temp"
+        }
+      ]
+    },
+    {
+      "name": "work",
+      "actions": [
+        {
+          "name": "gen1",
+          "category": "Variable",
+          "type": "Generate Random Number",
+          "messageActionRows": [],
+          "varname": "gen1",
+          "min": "50",
+          "max": "200",
+          "savevartype": "temp"
+        },
+        {
+          "name": "addCash",
+          "category": "User Data",
+          "type": "Edit User Data",
+          "messageActionRows": [],
+          "user": "${dbsVars.CommandAuthor.id}",
+          "field": "cash",
+          "oper": "+",
+          "value": "${tempVars.gen1}"
+        },
+        {
+          "name": "sendwork",
+          "category": "Message",
+          "type": "Send Message",
+          "messageActionRows": [],
+          "channelname": "${dbsVars.CommandChannel.id}",
+          "messagetext": "Du hast ${tempVars.gen1} 💵 verdient!",
+          "savetovariable": "",
+          "savetovariabletype": "temp"
+        }
+      ]
+    },
+    {
+      "name": "dep",
+      "actions": [
+        {
+          "name": "getDep",
+          "category": "Variable",
+          "type": "Store Value in Variable",
+          "messageActionRows": [],
+          "varname": "dep_var",
+          "vartype": "Number",
+          "savevartype": "temp",
+          "param": "0"
+        },
+        {
+          "name": "getCash",
+          "category": "User Data",
+          "type": "Get User Data",
+          "messageActionRows": [],
+          "user": "${dbsVars.CommandAuthor.id}",
+          "field": "cash",
+          "varname": "cash",
+          "savevartype": "temp",
+          "vartype": "User"
+        },
+        {
+          "name": "checkMoney",
+          "category": "User Data",
+          "type": "Check User Data",
+          "trueActions": [
+            {
+              "name": "checkCash",
+              "category": "Variable",
+              "type": "Check Variable Value",
+              "trueActions": [
+                {
+                  "name": "ErrorDep_2",
+                  "category": "Message",
+                  "type": "Send Embed",
+                  "messageActionRows": [],
+                  "channelname": "${dbsVars.CommandChannel.id}",
+                  "color": "FF0000",
+                  "title": "",
+                  "url": "",
+                  "authorname": "",
+                  "authorimageurl": "",
+                  "authorlink": "",
+                  "description": "❌ Du hast nicht so viel Geld auf der Hand!",
+                  "thumbnail": "",
+                  "image": "",
+                  "footer": "",
+                  "timestamp": "false",
+                  "savetovariable": "",
+                  "savetovariabletype": "temp"
+                }
+              ],
+              "falseActions": [
+                {
+                  "name": "editBank",
+                  "category": "User Data",
+                  "type": "Edit User Data",
+                  "messageActionRows": [],
+                  "user": "${dbsVars.CommandAuthor.id}",
+                  "field": "bank",
+                  "oper": "+",
+                  "value": "${tempVars.dep_var}"
+                },
+                {
+                  "name": "editBank_1",
+                  "category": "User Data",
+                  "type": "Edit User Data",
+                  "messageActionRows": [],
+                  "user": "${dbsVars.CommandAuthor.id}",
+                  "field": "cash",
+                  "oper": "-",
+                  "value": "${tempVars.dep_var}"
+                },
+                {
+                  "name": "depMsg",
+                  "category": "Message",
+                  "type": "Send Embed",
+                  "messageActionRows": [],
+                  "channelname": "${dbsVars.CommandChannel.id}",
+                  "color": "4FFF4D",
+                  "title": "",
+                  "url": "",
+                  "authorname": "",
+                  "authorimageurl": "",
+                  "authorlink": "",
+                  "description": "✅ Du hast ${tempVars.dep_var}  💵 \n auf die Bank gelegt!",
+                  "thumbnail": "",
+                  "image": "",
+                  "footer": "",
+                  "timestamp": "false",
+                  "savetovariable": "",
+                  "savetovariabletype": "temp"
+                }
+              ],
+              "messageActionRows": [],
+              "varname": "dep_var",
+              "savevartype": "temp",
+              "compare": "greater than",
+              "value": "${tempVars.cash}"
+            }
+          ],
+          "falseActions": [
+            {
+              "name": "ErrorDep",
+              "category": "Message",
+              "type": "Send Embed",
+              "messageActionRows": [],
+              "channelname": "${dbsVars.CommandChannel.id}",
+              "color": "FF0000",
+              "title": "",
+              "url": "",
+              "authorname": "",
+              "authorimageurl": "",
+              "authorlink": "",
+              "description": "❌ Du hast kein Geld auf der Hand!",
+              "thumbnail": "",
+              "image": "",
+              "footer": "",
+              "timestamp": "false",
+              "savetovariable": "",
+              "savetovariabletype": "temp"
+            }
+          ],
+          "messageActionRows": [],
+          "user": "${dbsVars.CommandAuthor.id}",
+          "field": "cash",
+          "compare": "greater than",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "name": "with",
+      "actions": [
+        {
+          "name": "getDep_1",
+          "category": "Variable",
+          "type": "Store Value in Variable",
+          "messageActionRows": [],
+          "varname": "with_var",
+          "vartype": "Number",
+          "savevartype": "temp",
+          "param": "0"
+        },
+        {
+          "name": "getCash_1",
+          "category": "User Data",
+          "type": "Get User Data",
+          "messageActionRows": [],
+          "user": "${dbsVars.CommandAuthor.id}",
+          "field": "bank",
+          "varname": "bank",
+          "savevartype": "temp",
+          "vartype": "User"
+        },
+        {
+          "name": "checkMoney_1",
+          "category": "User Data",
+          "type": "Check User Data",
+          "trueActions": [
+            {
+              "name": "checkCash_1",
+              "category": "Variable",
+              "type": "Check Variable Value",
+              "trueActions": [
+                {
+                  "name": "ErrorDep_1_1",
+                  "category": "Message",
+                  "type": "Send Embed",
+                  "messageActionRows": [],
+                  "channelname": "${dbsVars.CommandChannel.id}",
+                  "color": "FF0000",
+                  "title": "",
+                  "url": "",
+                  "authorname": "",
+                  "authorimageurl": "",
+                  "authorlink": "",
+                  "description": "❌ Du hast nicht so viel Geld auf der Bank!",
+                  "thumbnail": "",
+                  "image": "",
+                  "footer": "",
+                  "timestamp": "false",
+                  "savetovariable": "",
+                  "savetovariabletype": "temp"
+                }
+              ],
+              "falseActions": [
+                {
+                  "name": "editBank_2",
+                  "category": "User Data",
+                  "type": "Edit User Data",
+                  "messageActionRows": [],
+                  "user": "${dbsVars.CommandAuthor.id}",
+                  "field": "bank",
+                  "oper": "-",
+                  "value": "${tempVars.with_var}"
+                },
+                {
+                  "name": "editBank_1_1",
+                  "category": "User Data",
+                  "type": "Edit User Data",
+                  "messageActionRows": [],
+                  "user": "${dbsVars.CommandAuthor.id}",
+                  "field": "cash",
+                  "oper": "+",
+                  "value": "${tempVars.with_var}"
+                },
+                {
+                  "name": "depMsg_1",
+                  "category": "Message",
+                  "type": "Send Embed",
+                  "messageActionRows": [],
+                  "channelname": "${dbsVars.CommandChannel.id}",
+                  "color": "4FFF4D",
+                  "title": "",
+                  "url": "",
+                  "authorname": "",
+                  "authorimageurl": "",
+                  "authorlink": "",
+                  "description": "✅ Du hast ${tempVars.with_var}  💵 \n von der Bank abgehoben!",
+                  "thumbnail": "",
+                  "image": "",
+                  "footer": "",
+                  "timestamp": "false",
+                  "savetovariable": "",
+                  "savetovariabletype": "temp"
+                }
+              ],
+              "messageActionRows": [],
+              "varname": "with_var",
+              "savevartype": "temp",
+              "compare": "greater than",
+              "value": "${tempVars.bank}"
+            }
+          ],
+          "falseActions": [
+            {
+              "name": "ErrorDep_1",
+              "category": "Message",
+              "type": "Send Embed",
+              "messageActionRows": [],
+              "channelname": "${dbsVars.CommandChannel.id}",
+              "color": "FF0000",
+              "title": "",
+              "url": "",
+              "authorname": "",
+              "authorimageurl": "",
+              "authorlink": "",
+              "description": "❌ Du hast kein Geld auf der Bank!",
+              "thumbnail": "",
+              "image": "",
+              "footer": "",
+              "timestamp": "false",
+              "savetovariable": "",
+              "savetovariabletype": "temp"
+            }
+          ],
+          "messageActionRows": [],
+          "user": "${dbsVars.CommandAuthor.id}",
+          "field": "bank",
+          "compare": "greater than",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "name": "twitch",
+      "actions": [
+        {
+          "name": "MyTwitch",
+          "category": "Message",
+          "type": "Send Embed",
+          "messageActionRows": [],
+          "channelname": "${dbsVars.CommandChannel.id}",
+          "color": "B35CFF",
+          "title": "Twtich",
+          "url": "https://www.twitch.tv/sweat_getonmylvl",
+          "authorname": "",
+          "authorimageurl": "${dbsVars.CommandAuthor.user.avatarURL}",
+          "authorlink": "",
+          "description": "Follow me on Twitch!",
+          "thumbnail": "",
+          "image": "https://images-na.ssl-images-amazon.com/images/I/21kRx-CJsUL.png",
+          "footer": "",
+          "timestamp": "false",
+          "savetovariable": "",
+          "savetovariabletype": "temp"
+        }
+      ]
+    }
+  ]
+}
